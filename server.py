@@ -31,7 +31,8 @@ from configloader import load_config, get_config
 
 class MainThread(threading.Thread):
 	def __init__(self, obj):
-		threading.Thread.__init__(self)
+		super(MainThread, self).__init__()
+		self.daemon = True
 		self.obj = obj
 
 	def run(self):
@@ -54,7 +55,7 @@ def main():
 		thread.start()
 		try:
 			while thread.is_alive():
-				time.sleep(10)
+				thread.join(10.0)
 		except (KeyboardInterrupt, IOError, OSError) as e:
 			import traceback
 			traceback.print_exc()
